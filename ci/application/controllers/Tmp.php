@@ -23,10 +23,14 @@ class Tmp extends Base_Controller {
         if(isset($user_id)) {
             echo '사용자: '.$user_id.'<br>';
         }
-        
+        /*
         $rs = $this->db
                     ->get('items')
                     ->result_array();
+        */
+        
+        $table = 'items';
+        $rs = $this->tmp_m->get_list($table);
         
         $this->assign('rs', $rs);
         
@@ -145,12 +149,16 @@ class Tmp extends Base_Controller {
                 'use' => $use,
                 'user_id' => $user_id
             );
-            
+            /*
             $this->db
                     ->insert('items', $data);
-            
-            redirect('/tmp/tmp_list/');
-            exit;
+            */
+            $rs = $this->tmp_m->insert_board($data);
+            if ( $rs )
+            {
+                redirect('/tmp/tmp_list/');
+                exit;
+            }
                     
         } else {
             $this->tpl_name = 'tmp_write';
@@ -159,11 +167,12 @@ class Tmp extends Base_Controller {
     }
     
     public function tmp_modify($id) {
-        
+        $this->output->enable_profiler(TRUE);
         //$id = $this->uri->segment(3);
         $this->load->helper('alert');
         
         @$user_id = $_SESSION["username"];
+        $table = 'items';
         
         if( $_POST ) {
             
@@ -175,15 +184,32 @@ class Tmp extends Base_Controller {
                 'use' => $this->input->post('use', TRUE)
             );
             
+            /*
             $rs = $this->db
                             ->where('id', $id)
                             ->update('items', $modify_data);
+            */
             
-            redirect('/tmp/tmp_list/');
-            exit;
+            $rs = $this->tmp_m->modify_board($id, $modify_data);
+            
+            //if($this->db->affected_rows())
+            if ( $rs )    
+            {
+                redirect('/tmp/tmp_list/');
+                exit;
+            }
+            else
+            {
+                echo "안됐음"; exit;
+            }
             
         } else {
             
+            $rs = $this->tmp_m->get_view($table, $id);
+            //echo '$rs["user_id"]='.$rs["user_id"].'<br>';
+            $article_id = $rs["user_id"];
+            
+            /*
             $rs = $this->db
                             ->where('id', $id)
                             ->get('items')
@@ -191,6 +217,7 @@ class Tmp extends Base_Controller {
             foreach($rs as $row) {
                 $article_id = $row["user_id"];
             }
+            */
             
             if($user_id != $article_id) {
                 alert_back('본인글만 수정이 가능합니다.');
@@ -208,11 +235,15 @@ class Tmp extends Base_Controller {
         //$id = $this->uri->segment(3);
         $this->load->helper('alert');
         @$user_id = $_SESSION["username"];
-        
+        $table = 'items';
+        /*
         $rs = $this->db
                         ->where('id', $id)
                         ->get('items')
                         ->row_array();
+        $article_id = $rs["user_id"];
+        */
+        $rs = $this->tmp_m->get_view($table, $id);
         $article_id = $rs["user_id"];
         
         if($article_id != $user_id) {
@@ -220,9 +251,13 @@ class Tmp extends Base_Controller {
             exit;
         }
         
+        /*
         $this->db
                 ->where('id', $id)
                 ->delete('items');
+        */
+        
+        $rs = $this->tmp_m->delete_content($id);
         
         redirect('/tmp/tmp_list/');
         exit;
