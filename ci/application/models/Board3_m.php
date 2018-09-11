@@ -68,4 +68,26 @@ class Board3_m extends CI_Model
     
     
     
+    
+    function get_view($table, $id)
+    {
+        
+        $sql0 = "UPDATE ".$table." SET hits=hits+1 WHERE board_id='".$id."'";
+        $this->db->query($sql0);
+        
+        $sql = "SELECT * FROM ".$table." WHERE board_id='".$id."'";
+        $query = $this->db->query($sql);
+        
+        
+        $result = $query->row();
+        
+        return $result;
+    }
+    
+    
+    
+    
+    
+    
+    
 }

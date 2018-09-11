@@ -97,6 +97,20 @@ class Board3 extends Base_Controller {
     
     
     
+    function view()
+    {
+        $table = $this->uri->segment(3);
+        $board_id = $this->uri->segment(5);
+        
+        
+        $data['views'] = $this->board3_m->get_view($table, $board_id);
+        
+        $this->load->view('board3/view_v', $data);
+    }
+    
+    
+    
+    
     
     
     
