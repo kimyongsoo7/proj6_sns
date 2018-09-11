@@ -114,6 +114,66 @@ class Board3 extends Base_Controller {
     
     
     
+    
+    function write()
+    {
+        
+        $this->load->helper('alert');
+        echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+        
+        $this->load->library('form_validation');
+        
+        $this->form_validation->set_rules('subject', '제목', 'required');
+        $this->form_validation->set_rules('contents', '내용', 'required');
+        
+        if ( $this->form_validation->run() == TRUE )
+        {
+            
+            $uri_array = $this->segment_explode($this->uri->uri_string());
+            
+            if( in_array('page', $uri_array) )
+            {
+                $pages = urldecode($this->url_explode($uri_array, 'page'));
+            }
+            else
+            {
+                $pages = 1;
+            }
+            
+            $write_data = array(
+                'table' => $this->uri->segment(3),
+                'subject' => $this->input->post('subject', TRUE),
+                'contents' => $this->input->post('contents', TRUE),
+                //'user_id' => $this->session->userdata('username')
+                'user_id' => '울랄라'    
+            );
+            
+            $result = $this->board3_m->insert_board($write_data);
+            
+            if ( $result )
+            {
+                
+                alert('입력되었습니다.', '/board3/lists/'.$this->uri->segment(3).'/page/'.$pages);
+                exit;
+            }
+            else
+            {
+                
+                alert('다시 입력해 주세요.', '/board3/lists/'.$this->uri->segment(3).'/page/'.$pages);
+                exit;
+            }
+        }
+        else
+        {
+            
+            $this->load->view('board3/write_v');
+        }
+    }
+    
+    
+    
+    
+    
     function url_explode($url, $key)
     {
         $cnt = count($url);

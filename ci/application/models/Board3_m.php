@@ -89,5 +89,21 @@ class Board3_m extends CI_Model
     
     
     
+   
     
+    function insert_board($arrays)
+    {
+        $insert_array = array(
+            'board_pid' => 0,
+            'user_id' => $arrays['user_id'],
+            'user_name' => $arrays['user_id'],
+            'subject' => $arrays['subject'],
+            'contents' => $arrays['contents'],
+            'reg_date' => date("Y-m-d H:i:s")
+        );
+        
+        $result = $this->db->insert($arrays['table'], $insert_array);
+        
+        return $result;
+    }
 }
