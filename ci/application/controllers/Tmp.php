@@ -13,6 +13,7 @@ class Tmp extends Base_Controller {
             parent::__construct();
             
             $this->load->helper(array('url'));
+            $this->load->model('tmp_m');
     }
     
     public function tmp_list() {
@@ -103,11 +104,15 @@ class Tmp extends Base_Controller {
         
         //$id = $this->uri->segment(3);
         
+        /*
         $rs = $this->db
                     ->where('id', $id)
                     ->get('items')
                     ->row_array();
-      
+        */
+        
+        $rs = $this->tmp_m->get_view('items', $id);
+        
         $this->assign('rs', $rs);
         $this->assign('id_var', $id);
         
