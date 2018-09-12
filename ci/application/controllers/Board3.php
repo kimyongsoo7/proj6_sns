@@ -127,11 +127,7 @@ class Board3 extends Base_Controller {
      
         $this->output->enable_profiler(TRUE);
         
-        $hits_1 = 'hits+1';
-        $view_data = array(
-            'hits' => $hits_1
-        );
-        $result = $this->board3_m->get_view($table, $board_id, $view_data);
+        $result = $this->board3_m->get_view($table, $board_id);
         
         $seg_3 = $this->uri->segment(3);
         $seg_5 = $this->uri->segment(5);
@@ -263,10 +259,20 @@ class Board3 extends Base_Controller {
         }
         else
         {
-            
+            /*
             $data['views'] = $this->board3_m->get_view($this->uri->segment(3), $this->uri->segment(5));
             
             $this->load->view('board3/modify_v', $data);
+            */
+            $seg_3 = $this->uri->segment(3);
+            $seg_5 = $this->uri->segment(5);
+            $result = $this->board3_m->get_view($this->uri->segment(3), $this->uri->segment(5));
+            
+            $this->assign('seg_3', $seg_3);
+            $this->assign('seg_5', $seg_5);
+            $this->assign('result', $result);
+            
+            $this->tpl_name = 'modify';
         }
         
     }

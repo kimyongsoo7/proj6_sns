@@ -111,7 +111,7 @@ class Board3_m extends CI_Model
     
     
     
-    function get_view($table, $id, $data)
+    function get_view($table, $id)
     {
         /*
         $sql0 = "UPDATE ".$table." SET hits=hits+1 WHERE board_id='".$id."'";
