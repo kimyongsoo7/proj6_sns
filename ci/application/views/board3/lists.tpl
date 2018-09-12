@@ -52,7 +52,7 @@
 		</table>
             <div><p><a href="/board3/write/{seg_3}/page/{seg_5}" class="btn btn-success">쓰기</a></p></div>
 		<div>
-                        <form id="bd_search" method="post" class="well form-search" action="/board/lists/ci_board">
+                        <form id="bd_search" method="post" class="well form-search" action="/board3/lists/ci_board">
 				<i class="icon-search"></i> <input type="text" name="search_word" id="q" onkeypress="board_search_enter(document.q);" class="input-medium search-query" /> <input type="button" value="검색" id="search_btn" class="btn btn-primary" />
 			</form>
 		</div>
