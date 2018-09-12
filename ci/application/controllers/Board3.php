@@ -232,6 +232,26 @@ class Board3 extends Base_Controller {
         
     }
     
+    function delete()
+    {
+        
+        $this->load->helper('alert');
+        echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+        
+        $table = $this->uri->segment(3);
+        $board_id = $this->uri->segment(5);
+        
+        $return = $this->board3_m->delete_content($this->uri->segment(3), $this->uri->segment(5));
+        
+        if ( $return )
+        {
+            alert('삭제되었습니다.', '/board3/lists/'.$this->uri->segment(3).'/page/'.$this->uri->segment(7));
+        }
+        else
+        {
+            alert('삭제 실패하였습니다.', '/board3/view/'.$this->uri->segment(3).'/board_id/'.$this->uri->segment(5).'/page/'.$this->uri->segment(7));
+        }
+    }
     
     
     function url_explode($url, $key)
