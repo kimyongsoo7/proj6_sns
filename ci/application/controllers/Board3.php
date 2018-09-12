@@ -119,10 +119,30 @@ class Board3 extends Base_Controller {
         $table = $this->uri->segment(3);
         $board_id = $this->uri->segment(5);
         
-        
+        /*
         $data['views'] = $this->board3_m->get_view($table, $board_id);
         
         $this->load->view('board3/view_v', $data);
+        */
+     
+        $this->output->enable_profiler(TRUE);
+        
+        $hits_1 = 'hits+1';
+        $view_data = array(
+            'hits' => $hits_1
+        );
+        $result = $this->board3_m->get_view($table, $board_id, $view_data);
+        
+        $seg_3 = $this->uri->segment(3);
+        $seg_5 = $this->uri->segment(5);
+        $seg_7 = $this->uri->segment(7);
+        
+        $this->assign('result', $result);
+        $this->assign('seg_3', $seg_3);
+        $this->assign('seg_5', $seg_5);
+        $this->assign('seg_7', $seg_7);
+        
+        $this->tpl_name = 'view';
     }
     
     

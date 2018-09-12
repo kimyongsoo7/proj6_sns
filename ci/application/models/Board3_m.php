@@ -111,9 +111,9 @@ class Board3_m extends CI_Model
     
     
     
-    function get_view($table, $id)
+    function get_view($table, $id, $data)
     {
-        
+        /*
         $sql0 = "UPDATE ".$table." SET hits=hits+1 WHERE board_id='".$id."'";
         $this->db->query($sql0);
         
@@ -122,6 +122,16 @@ class Board3_m extends CI_Model
         
         
         $result = $query->row();
+        
+        return $result;
+        */
+        
+        $this->db->where('board_id', $id);
+        $this->db->set('hits', 'hits+1', FALSE);
+        $query = $this->db->update($table);
+        
+        $this->db->where('board_id', $id);
+        $result = $this->db->get($table)->row_array();
         
         return $result;
     }
