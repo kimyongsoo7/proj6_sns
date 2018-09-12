@@ -170,7 +170,67 @@ class Board3 extends Base_Controller {
         }
     }
     
-    
+    function modify()
+    {
+        
+        $this->load->helper('alert');
+        echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+        
+        $uri_array = $this->segment_explode($this->uri->uri_string());
+        
+        if( in_array('page', $uri_array) )
+        {
+            $pages = urldecode($this->url_explode($uri_array, 'page'));
+        }
+        else
+        {
+            $pages = 1;
+        }
+        
+        $this->load->library('form_validation');
+        
+        $this->form_validation->set_rules('subject', '제목', 'required');
+        $this->form_validation->set_rules('contents', '내용', 'required');
+        
+        if ( $this->form_validation->run() == TRUE )
+        {
+            if ( !$this->input->post('subject', TRUE) AND !$this->input->post('contents', TRUE) )
+            {
+                
+                alert('비정상적인 접근입니다.', '/board3/lists/'.$this->uri->segment(3).'/page/'.$pages);
+                exit;
+            }
+            
+            $modify_data = array(
+                'table' => $this->uri->segment(3),
+                'board_id' => $this->uri->segment(5),
+                'subject' => $this->input->post('subject', TRUE),
+                'contents' => $this->input->post('contents', TRUE)
+            );
+            
+            $result = $this->board3_m->modify_board($modify_data);
+            
+            if ( $result )
+            {
+                
+                alert('수정되었습니다.', '/board3/lists/'.$this->uri->segment(3).'/page/'.$pages);
+                exit;
+            }
+            else
+            {
+                alert('다시 수정해 주세요.', '/board3/view/'.$this->uri->segment(3).'/board_id/'.$this->uri->segment(5).'/page/'.$pages);
+                exit;
+            }
+        }
+        else
+        {
+            
+            $data['views'] = $this->board3_m->get_view($this->uri->segment(3), $this->uri->segment(5));
+            
+            $this->load->view('board3/modify_v', $data);
+        }
+        
+    }
     
     
     
