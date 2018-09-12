@@ -94,7 +94,7 @@ class Board3 extends Base_Controller {
         $data['list'] = $this->board3_m->get_list($this->uri->segment(3), '', $start, $limit, $search_word);
         $this->load->view('board3/list_v', $data);
         */
-        
+        echo '$bbb='.$this->uri->segment(5).'<br>';
         
         $seg_1 = $this->uri->segment(1);
         $seg_3 = $this->uri->segment(3);
@@ -169,11 +169,11 @@ class Board3 extends Base_Controller {
             $uri_array = $this->segment_explode($this->uri->uri_string());
             
             if( in_array('page', $uri_array) )
-            {
+            {   
                 $pages = urldecode($this->url_explode($uri_array, 'page'));
             }
             else
-            {
+            {   
                 $pages = 1;
             }
             
@@ -203,7 +203,9 @@ class Board3 extends Base_Controller {
         else
         {
             
-            $this->load->view('board3/write_v');
+            //$this->load->view('board3/write_v');
+            
+            $this->tpl_name = 'write';
         }
     }
     
