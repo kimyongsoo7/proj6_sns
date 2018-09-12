@@ -90,8 +90,25 @@ class Board3 extends Base_Controller {
         
         $limit = $config['per_page'];
         
+        /*
         $data['list'] = $this->board3_m->get_list($this->uri->segment(3), '', $start, $limit, $search_word);
         $this->load->view('board3/list_v', $data);
+        */
+        
+        
+        $seg_1 = $this->uri->segment(1);
+        $seg_3 = $this->uri->segment(3);
+        $seg_5 = $this->uri->segment(5);
+        $result = $this->board3_m->get_list($this->uri->segment(3), '', $start, $limit, $search_word);
+        
+        $this->assign('result', $result);
+        $this->assign('seg_1', $seg_1);
+        $this->assign('seg_3', $seg_3);
+        $this->assign('seg_5', $seg_5);
+        $this->assign('page', $page);
+        
+        $this->tpl_name = 'lists';
+        
     }
     
     
