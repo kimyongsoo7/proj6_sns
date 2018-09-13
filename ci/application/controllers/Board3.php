@@ -241,6 +241,10 @@ class Board3 extends Base_Controller {
         //form_open 함수 템플릿 언더바에서 사용하기 위해 처리
         $form_open = form_open('/board3/modify/'.$this->uri->segment(3).'/board_id/'.$this->uri->segment(5), array('id'=>'write_action', 'class'=>'form-horizontal'));
         
+        //set_value 함수 템플릿 언더바에서 사용하기 위해 처리
+        $setv_subj = set_value("subject");
+        $setv_cont = set_value("contents");
+        
         if ( $this->form_validation->run() == TRUE )
         {
             if ( !$this->input->post('subject', TRUE) AND !$this->input->post('contents', TRUE) )
@@ -286,6 +290,9 @@ class Board3 extends Base_Controller {
             $this->assign('seg_5', $seg_5);
             $this->assign('result', $result);
             $this->assign('form_open', $form_open);
+            
+            $this->assign('setv_subj', $setv_subj);
+            $this->assign('setv_cont', $setv_cont);
             
             $this->tpl_name = 'modify';
         }

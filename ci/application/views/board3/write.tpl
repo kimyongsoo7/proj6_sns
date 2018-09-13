@@ -10,12 +10,12 @@
 		    <div class="control-group">
 		      <label class="control-label" for="input01">제목</label>
 		      <div class="controls">
-		        <input type="text" class="input-xlarge" id="input01" name="subject" value="">
+		        <input type="text" class="input-xlarge" id="input01" name="subject" value="{setv_subj}">
 		        <p class="help-block">게시물의 제목을 써주세요.</p>
 		      </div>
 		      <label class="control-label" for="input02">내용</label>
 		      <div class="controls">
-		        <textarea class="input-xlarge" id="input02" name="contents" rows="5"></textarea>
+		        <textarea class="input-xlarge" id="input02" name="contents" rows="5">{setv_cont}</textarea>
 		        <p class="help-block">게시물의 내용을 써주세요.</p>
 		      </div>
 
