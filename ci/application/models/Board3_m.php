@@ -26,7 +26,7 @@ class Board3_m extends CI_Model
     
     function get_list($table='ci_board', $type='', $offset='', $limit='', $search_word='')
     {
-        /*
+      /*   
         $sword= ' WHERE 1=1 ';
         
         if ( $search_word != '' )
@@ -61,19 +61,22 @@ class Board3_m extends CI_Model
         
         return $result;
         */
-        
+     
+    
         // 모델부분 AR로 변환
         if ( $search_word != '' )
         {
             if ( $limit != '' OR $offset != '' ) {
                 $this->db->like('subject', $search_word);
                 $this->db->or_like('contents', $search_word);
+                $this->db->order_by("board_id", "desc");
                 $query = $this->db->get($table, $offset, $limit);
             }
             else
             {
                 $this->db->like('subject', $search_word);
                 $this->db->or_like('contents', $search_word);
+                $this->db->order_by("board_id", "desc");
                 $query = $this->db->get($table);
             }
         } 
@@ -81,10 +84,12 @@ class Board3_m extends CI_Model
         {
             if ( $limit != '' OR $offset != '' )
             {
-                $query = $this->db->get($table, $offset, $limit);
+                $this->db->order_by("board_id", "desc");
+                $query = $this->db->get($table, $limit, $offset);
             }    
             else
             {
+                $this->db->order_by("board_id", "desc");
                 $query = $this->db->get($table);
             }    
         }

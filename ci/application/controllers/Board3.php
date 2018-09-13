@@ -71,7 +71,6 @@ class Board3 extends Base_Controller {
         $config['per_page'] = 5;
         $config['uri_segment'] = $uri_segment;
         
-        
         $this->pagination->initialize($config);
         
         $data['pagination'] = $this->pagination->create_links();
@@ -94,7 +93,6 @@ class Board3 extends Base_Controller {
         $data['list'] = $this->board3_m->get_list($this->uri->segment(3), '', $start, $limit, $search_word);
         $this->load->view('board3/list_v', $data);
         */
-        echo '$bbb='.$this->uri->segment(5).'<br>';
         
         $seg_1 = $this->uri->segment(1);
         $seg_3 = $this->uri->segment(3);
@@ -105,9 +103,13 @@ class Board3 extends Base_Controller {
         $this->assign('seg_1', $seg_1);
         $this->assign('seg_3', $seg_3);
         $this->assign('seg_5', $seg_5);
+        
+        $this->assign('pagination', $data['pagination']);
         $this->assign('page', $page);
         
         $this->tpl_name = 'lists';
+        
+       
         
     }
     

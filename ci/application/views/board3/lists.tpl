@@ -46,7 +46,7 @@
 			</tbody>
 			<tfoot>
 				<tr>
-					<th colspan="5"><?php echo $pagination;?></th>
+					<th colspan="5">{pagination}</th>
 				</tr>
 			</tfoot>
 		</table>
