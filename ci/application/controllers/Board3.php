@@ -160,6 +160,12 @@ class Board3 extends Base_Controller {
         
         $this->form_validation->set_rules('subject', '제목', 'required');
         $this->form_validation->set_rules('contents', '내용', 'required');
+
+        //form_open 함수 템플릿 언더바에서 사용하기 위해 처리
+        $attributes = array('class' => 'form-horizontal', 'id' => 'write_action');
+        //form_open('board3/write/ci_board', $attributes);        
+        $form_open = form_open('board3/write/ci_board', $attributes);
+        
         
         if ( $this->form_validation->run() == TRUE )
         {
@@ -203,7 +209,10 @@ class Board3 extends Base_Controller {
             
             //$this->load->view('board3/write_v');
             
+            $this->assign('form_open', $form_open);
+            
             $this->tpl_name = 'write';
+            
         }
     }
     
@@ -228,6 +237,9 @@ class Board3 extends Base_Controller {
         
         $this->form_validation->set_rules('subject', '제목', 'required');
         $this->form_validation->set_rules('contents', '내용', 'required');
+        
+        //form_open 함수 템플릿 언더바에서 사용하기 위해 처리
+        $form_open = form_open('/board3/modify/'.$this->uri->segment(3).'/board_id/'.$this->uri->segment(5), array('id'=>'write_action', 'class'=>'form-horizontal'));
         
         if ( $this->form_validation->run() == TRUE )
         {
@@ -273,6 +285,7 @@ class Board3 extends Base_Controller {
             $this->assign('seg_3', $seg_3);
             $this->assign('seg_5', $seg_5);
             $this->assign('result', $result);
+            $this->assign('form_open', $form_open);
             
             $this->tpl_name = 'modify';
         }

@@ -19,7 +19,8 @@
 		<header>
 			<h1></h1>
 		</header>
-		<form class="form-horizontal" method="post" action="/board3/modify/{seg_3}/board_id/{seg_5}" id="write_action">
+		<!--<form class="form-horizontal" method="post" action="/board3/modify/{seg_3}/board_id/{seg_5}" id="write_action">-->
+                {form_open}
 		  <fieldset>
 		    <legend>게시물 수정</legend>
 		    <div class="control-group">
