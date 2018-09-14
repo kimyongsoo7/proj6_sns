@@ -118,7 +118,7 @@ class Board3_m extends CI_Model
     
     function get_view($table, $id)
     {
-        /*
+        
         $sql0 = "UPDATE ".$table." SET hits=hits+1 WHERE board_id='".$id."'";
         $this->db->query($sql0);
         
@@ -129,8 +129,8 @@ class Board3_m extends CI_Model
         $result = $query->row();
         
         return $result;
-        */
         
+        /*
         $this->db->where('board_id', $id);
         $this->db->set('hits', 'hits+1', FALSE);
         $query = $this->db->update($table);
@@ -139,6 +139,7 @@ class Board3_m extends CI_Model
         $result = $this->db->get($table)->row_array();
         
         return $result;
+        */
     }
     
     
@@ -196,6 +197,34 @@ class Board3_m extends CI_Model
         );
         
         $result = $this->db->delete($table, $delete_array);
+        
+        return $result;
+    }
+    
+    function insert_comment($arrays)
+    {
+        $insert_array = array(
+            'board_pid' => $arrays['board_pid'],
+            'user_id' => $arrays['user_id'],
+            'user_name' => $arrays['user_id'],
+            'subject' => $arrays['subject'],
+            'contents' => $arrays['contents'],
+            'reg_date' => date("Y-m-d H:i:s")
+        );
+        
+        $this->db->insert($arrays['table'], $insert_array);
+        
+        $board_id = $this->db->insert_id();
+        
+        return $board_id;
+    }
+    
+    function get_comment($table, $id)
+    {
+        $sql = "SELECT * FROM ".$table." WHERE board_pid='".$id."' ORDER BY board_id DESC";
+        $query = $this->db->query($sql);
+        
+        $result = $query->result();
         
         return $result;
     }
