@@ -12,6 +12,8 @@ class Ajax_board extends Base_Controller {
     function __construct()
     {
         parent::__construct();
+        
+        $this->load->model('board3_m');
     }
     
     /**
@@ -32,9 +34,6 @@ class Ajax_board extends Base_Controller {
     
     public function ajax_comment_add()
     {
-            
-            $this->load->model('board3_m');
-            
             $table = $this->input->post("table", TRUE);
             $board_id = $this->input->post("board_id", TRUE);
             $comment_contents = $this->input->post("comment_contents", TRUE);
@@ -54,9 +53,17 @@ class Ajax_board extends Base_Controller {
                 
                 if ( $result )
                 {
-                    
+                    /*
                     $sql = "SELECT * FROM ".$table." WHERE board_pid = '".$board_id."' ORDER BY board_id DESC";
                     $query = $this->db->query($sql);
+                    */
+                    
+                    $query = $this->db
+                            ->where('board_pid',$board_id)
+                            ->order_by('board_id','desc')
+                            ->get($table);
+                            //->result_array();
+                    
 ?>
 <table cellspacing="0" cellpadding="0" class="table table-striped" id="comment_table">
 <?php
@@ -95,10 +102,6 @@ foreach ($query->result() as $lt)
     
     public function ajax_comment_delete()
     {
-        //alert('ccc');
-       
-        $this->load->model('board3_m');
-        
         $table = $this->input->post("table", TRUE);
         $board_id = $this->input->post("board_id", TRUE);
         

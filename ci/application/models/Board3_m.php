@@ -118,7 +118,7 @@ class Board3_m extends CI_Model
     
     function get_view($table, $id)
     {
-        
+        /*
         $sql0 = "UPDATE ".$table." SET hits=hits+1 WHERE board_id='".$id."'";
         $this->db->query($sql0);
         
@@ -129,8 +129,8 @@ class Board3_m extends CI_Model
         $result = $query->row();
         
         return $result;
+        */
         
-        /*
         $this->db->where('board_id', $id);
         $this->db->set('hits', 'hits+1', FALSE);
         $query = $this->db->update($table);
@@ -139,7 +139,7 @@ class Board3_m extends CI_Model
         $result = $this->db->get($table)->row_array();
         
         return $result;
-        */
+        
     }
     
     
@@ -221,12 +221,31 @@ class Board3_m extends CI_Model
     
     function get_comment($table, $id)
     {
+        /*
         $sql = "SELECT * FROM ".$table." WHERE board_pid='".$id."' ORDER BY board_id DESC";
         $query = $this->db->query($sql);
         
         $result = $query->result();
         
         return $result;
+        */
+        
+        
+        /*
+        $this->db->where('board_pid', $id);
+        $this->db->order_by("board_id","desc");
+        $this->db->get($table);
+        */
+    
+        $result = $this->db
+                        ->where('board_pid',$id)
+                        ->order_by('board_id','desc')
+                        ->get($table)    
+                        ->result_array();
+        
+        return $result;
+        
+        
     }
     
 }
