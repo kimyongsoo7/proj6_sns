@@ -19,8 +19,8 @@
 		        <p class="help-block">게시물의 내용을 써주세요.</p>
 		      </div>
 
-			  <div class="controls">
-		        <p class="help-block"></p>
+		      <div class="controls">
+		        <p class="help-block">{validation_errors}</p>
 		      </div>
 
 		      <div class="form-actions">

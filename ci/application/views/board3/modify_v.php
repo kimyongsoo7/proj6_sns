@@ -1,4 +1,5 @@
 	<script>
+        /*
             $(document).ready(function(){
                 $("#write_btn").click(function(){
                     if($("#input01").val() == ''){
@@ -14,6 +15,7 @@
                     }
                 });
             });
+        */    
         </script>
 	<article id="board_area">
 		<header>
@@ -35,6 +37,10 @@
 		      <div class="controls">
 		        <textarea class="input-xlarge" id="input02" name="contents" rows="5"><?php echo $views->contents;?></textarea>
 				<p class="help-block"></p>
+		      </div>
+                      
+                      <div class="controls">
+		        <p class="help-block"><?php echo validation_errors(); ?></p>
 		      </div>
 
 		      <div class="form-actions">

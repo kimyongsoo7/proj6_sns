@@ -173,6 +173,10 @@ class Board3 extends Base_Controller {
         //form_open('board3/write/ci_board', $attributes);        
         $form_open = form_open('board3/write/ci_board', $attributes);
         
+        //set_value 함수 템플릿 언더바에서 사용하기 위해 처리
+        $setv_subj = set_value("subject");
+        $setv_cont = set_value("contents");
+        
         
         if ( $this->form_validation->run() == TRUE )
         {
@@ -217,7 +221,11 @@ class Board3 extends Base_Controller {
             $this->load->view('board3/write_v');
             */
             
+            $validation_errors = validation_errors();
             $this->assign('form_open', $form_open);
+            $this->assign('setv_subj', $setv_subj);
+            $this->assign('setv_cont', $setv_cont);
+            $this->assign('validation_errors', $validation_errors);
             $this->tpl_name = 'write';
             
         }
@@ -289,6 +297,9 @@ class Board3 extends Base_Controller {
             
             $this->load->view('board3/modify_v', $data);
             */
+            
+            $validation_errors = validation_errors();
+            
             $seg_3 = $this->uri->segment(3);
             $seg_5 = $this->uri->segment(5);
             $result = $this->board3_m->get_view($this->uri->segment(3), $this->uri->segment(5));
@@ -300,6 +311,7 @@ class Board3 extends Base_Controller {
             
             $this->assign('setv_subj', $setv_subj);
             $this->assign('setv_cont', $setv_cont);
+            $this->assign('validation_errors', $validation_errors);
             
             $this->tpl_name = 'modify';
         }

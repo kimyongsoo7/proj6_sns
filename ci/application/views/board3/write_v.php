@@ -22,7 +22,7 @@ echo form_open('board3/write/ci_board', $attributes);
 		        <p class="help-block">게시물의 내용을 써주세요.</p>
 		      </div>
 
-			  <div class="controls">
+		      <div class="controls">
 		        <p class="help-block"><?php echo validation_errors(); ?></p>
 		      </div>
 
