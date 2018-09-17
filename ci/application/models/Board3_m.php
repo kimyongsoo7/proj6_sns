@@ -26,7 +26,7 @@ class Board3_m extends CI_Model
     
     function get_list($table='ci_board', $type='', $offset='', $limit='', $search_word='')
     {
-      /*   
+         
         $sword= ' WHERE 1=1 ';
         
         if ( $search_word != '' )
@@ -60,9 +60,9 @@ class Board3_m extends CI_Model
         }
         
         return $result;
-        */
+        
      
-    
+        /*
         // 모델부분 AR로 변환
         if ( $search_word != '' )
         {
@@ -105,7 +105,7 @@ class Board3_m extends CI_Model
         }
         
         return $result;
-        
+        */
     }
     
     

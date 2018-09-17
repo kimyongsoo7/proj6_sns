@@ -45,12 +45,11 @@ class Board3 extends Base_Controller {
     
     
     public function lists()
-    {
+    {   
         $this->output->enable_profiler(TRUE);
         
         $search_word = $page_url = '';
         $uri_segment = 5;
-        
         
         $uri_array = $this->segment_explode($this->uri->uri_string());
         
@@ -89,11 +88,11 @@ class Board3 extends Base_Controller {
         
         $limit = $config['per_page'];
         
-        /*
+        
         $data['list'] = $this->board3_m->get_list($this->uri->segment(3), '', $start, $limit, $search_word);
         $this->load->view('board3/list_v', $data);
-        */
         
+        /*
         $seg_1 = $this->uri->segment(1);
         $seg_3 = $this->uri->segment(3);
         $seg_5 = $this->uri->segment(5);
@@ -108,7 +107,7 @@ class Board3 extends Base_Controller {
         $this->assign('page', $page);
         
         $this->tpl_name = 'lists';
-        
+        */
        
         
     }
