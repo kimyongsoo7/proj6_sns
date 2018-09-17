@@ -214,12 +214,12 @@ class Board3 extends Base_Controller {
         else
         {
             
-            //$this->load->view('board3/write_v');
+            $this->load->view('board3/write_v');
             
+            /*
             $this->assign('form_open', $form_open);
-            
             $this->tpl_name = 'write';
-            
+            */
         }
     }
     
