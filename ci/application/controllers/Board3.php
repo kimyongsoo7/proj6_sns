@@ -1,11 +1,15 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php //if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 include_once(__DIR__ . '/Base_controller.php');
 
 
 
-//class Board3 extends CI_Controller {
 class Board3 extends Base_Controller {    
+    
+    public $layout = 'board3';
+    public $libraries = array();
+    public $helpers = array();
+    public $models = array();
     
     function __construct()
     {
@@ -24,21 +28,22 @@ class Board3 extends Base_Controller {
     }
     
     
-    
+    public function ssibal()
+    {
+        $this->tpl_name = 'ssibal';
+    }
     
     
     public function _remap($method)
     {
-        
-        $this->load->view('header_v');
+        //$this->load->view('header_v');
         
         if( method_exists($this, $method) )
         {
             $this->{"{$method}"}();
         }
         
-        
-        $this->load->view('footer_v');
+        //$this->load->view('footer_v');
     }
     
     
@@ -46,6 +51,7 @@ class Board3 extends Base_Controller {
     
     public function lists()
     {   
+        
         $this->output->enable_profiler(TRUE);
         
         $search_word = $page_url = '';
@@ -88,11 +94,11 @@ class Board3 extends Base_Controller {
         
         $limit = $config['per_page'];
         
-        
+        /*
         $data['list'] = $this->board3_m->get_list($this->uri->segment(3), '', $start, $limit, $search_word);
         $this->load->view('board3/list_v', $data);
+        */
         
-        /*
         $seg_1 = $this->uri->segment(1);
         $seg_3 = $this->uri->segment(3);
         $seg_5 = $this->uri->segment(5);
@@ -107,7 +113,7 @@ class Board3 extends Base_Controller {
         $this->assign('page', $page);
         
         $this->tpl_name = 'lists';
-        */
+        
        
         
     }
