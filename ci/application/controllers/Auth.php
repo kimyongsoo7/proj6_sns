@@ -99,7 +99,14 @@ class Auth extends Base_Controller {
         else
         {
             
-            $this->load->view('auth/login_v');
+            //$this->load->view('auth/login_v');
+            
+            $attributes = array('class' => 'form-horizontal', 'id' => 'auth_login');
+            $form_open = form_open('/auth/login', $attributes);
+            
+            $this->assign('form_open', $form_open);
+            $this->tpl_name = 'login';
+            
         }
     }
     
