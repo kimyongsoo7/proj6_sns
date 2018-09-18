@@ -27,13 +27,6 @@ class Board3 extends Base_Controller {
         $this->lists();
     }
     
-    
-    public function ssibal()
-    {
-        $this->tpl_name = 'ssibal';
-    }
-    
-    
     public function _remap($method)
     {
         //$this->load->view('header_v');

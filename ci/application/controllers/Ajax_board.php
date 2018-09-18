@@ -46,7 +46,7 @@ class Ajax_board extends Base_Controller {
                     'subject' => '',
                     'contents' => $comment_contents,
                     //'user_id' => $this->session->userdata('username')
-                    'user_id' => 'louis'
+                    'user_id' => $_SESSION["username"]
                 );
                 
                 $result = $this->board3_m->insert_comment($write_data);
