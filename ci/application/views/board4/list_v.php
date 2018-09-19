@@ -21,7 +21,7 @@ foreach ($list as $lt)
                     <th scope="row">
                         <?php echo $lt->board_id;?>
                     </th>
-                    <td><a rel="external" href="/board4/<?php echo $this->uri->segment(1);?>/view/<?php echo $this->uri->segment(3);?>/board_id/<?php echo $lt->board_id;?>/page/<?php echo $page;?>"><?php echo $lt->subject;?></a></td>
+                    <td><a rel="external" href="/<?php echo $this->uri->segment(1);?>/view/<?php echo $this->uri->segment(3);?>/board_id/<?php echo $lt->board_id;?>/page/<?php echo $page;?>"><?php echo $lt->subject;?></a></td>
                     <td><?php echo $lt->user_name;?></td>
                     <td><?php echo $lt->hits;?></td>
                     <td><time datetime="<?php mdate("%Y-%M-%j", human_to_unix($lt->reg_date));?>"><?php echo mdate("%M, %j, %Y", human_to_unix($lt->reg_date));?></time></td>

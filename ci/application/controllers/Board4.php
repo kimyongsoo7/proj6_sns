@@ -69,5 +69,20 @@ class Board4 extends Base_Controller {
         $data['list'] = $this->board4_m->get_list($this->uri->segment(3), '', $start, $limit);
         $this->load->view('board4/list_v', $data);
     }
+    
+    /**
+     * 게시물 보기
+     */
+    function view()
+    {
+        $table = $this->uri->segment(3);
+        $board_id = $this->uri->segment(5);
+        
+        //게시판 이름과 게시물 번호에 해당하는 게시물 가져오기
+        $data['views'] = $this->board4_m->get_view($table, $board_id);
+        
+        //view 호출
+        $this->load->view('board4/view_v', $data);
+    }
 }
 
