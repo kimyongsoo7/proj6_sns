@@ -32,7 +32,7 @@ foreach ($list as $lt)
             </tbody>
             <tfoot>
                 <tr>
-                    <th colspan="3"></th>
+                    <th colspan="5"><?php echo $pagination;?></th>
                 </tr>
             </tfoot>
         </table>

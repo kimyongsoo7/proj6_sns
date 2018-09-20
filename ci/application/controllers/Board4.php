@@ -60,13 +60,35 @@ class Board4 extends Base_Controller {
         }
          */
         
+        //페이지네이션 라이브러리 로딩 추가
+        $this->load->library('pagination');
+        
+        //페이지네이션 설정
+        $config['base_url'] = '/board4/lists/ci_board'.$page_url.'/page/';
+        $config['total_rows'] = $this->board4_m->get_list($this->uri->segment(3), 'count', '', '', $search_word);
+        $config['per_page'] = 5;
+        $config['uri_segment'] = $uri_segment;
+        
+        //페이지네이션 초기화
+        $this->pagination->initialize($config);
+        //페이징 링크를 생성하여 view에서 사용할 변수에 할당
+        $data['pagination'] = $this->pagination->create_links();
+        
         //게시판 목록을 불러오기 위한 offset, limit 값 가져오기
         $data['page'] = $page = $this->uri->segment($uri_segment, 1);
         
-        $start = 0;
-        $limit = 0;
+        if ( $page > 1 )
+        {
+            $start = (($page/$config['per_page'])) * $config['per_page'];
+        }
+        else
+        {
+            $start = ($page-1) * $config['per_page'];
+        }
         
-        $data['list'] = $this->board4_m->get_list($this->uri->segment(3), '', $start, $limit);
+        $limit = $config['per_page'];
+        
+        $data['list'] = $this->board4_m->get_list($this->uri->segment(3), '', $start, $limit, $search_word);
         $this->load->view('board4/list_v', $data);
     }
     
