@@ -37,7 +37,8 @@
                 });
             });
             
-            $(".comment_delete").click(function(){
+            //$(".comment_delete").click(function(){
+            $(document).on("click",".comment_delete", function() {
                 $.ajax({
                     url: "/ajax_board2/ajax_comment_delete",
                     type: "POST",
