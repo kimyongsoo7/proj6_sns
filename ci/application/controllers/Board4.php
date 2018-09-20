@@ -50,16 +50,19 @@ class Board4 extends Base_Controller {
         //검색어 초기화
         $search_word = $page_url = '';
         $uri_segment = 5;
-        /*
+        
         //주소중에서 q(검색어) 세그먼트가 있는지 검사하기 위해 주소를 배열로 변환
         $uri_array = $this->segment_explode($this->uri->uri_string());
         
         if( in_array('q', $uri_array) ) {
             //주소에 검색어가 있을 경우의 처리, 즉 검색시
             $search_word = urldecode($this->url_explode($uri_array, 'q'));
+            
+            //페이지네이션용 주소
+            $page_url = '/q/'.$search_word;
+            $uri_segment = 7;
         }
-         */
-        
+         
         //페이지네이션 라이브러리 로딩 추가
         $this->load->library('pagination');
         

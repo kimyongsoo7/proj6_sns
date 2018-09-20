@@ -25,6 +25,6 @@
             
             <nav id="gnb">
                 <ul>
-                    <li><a rel="external" href="/board4/<?php echo $this->uri->segment(1);?>/lists/<?php echo $this->uri->segment(3);?>">Proj4</a></li>
+                    <li><a rel="external" href="/<?php echo $this->uri->segment(1);?>/lists/<?php echo $this->uri->segment(3);?>">Proj4</a></li>
                 </ul>
             </nav>

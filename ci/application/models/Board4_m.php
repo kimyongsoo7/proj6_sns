@@ -24,9 +24,15 @@ class Board4_m extends CI_Model
      * @param string $search_word 검색어
      * @return array
      */
-    function get_list($table='ci_board', $type='', $offset='', $limit='')
+    function get_list($table='ci_board', $type='', $offset='', $limit='', $search_word='')
     {
        $sword = ' WHERE 1=1 ';
+       
+       if ( $search_word != '' )
+       {
+           //검색어가 있을 경우의 처리
+           $sword = ' WHERE subject like "%'.$search_word.'%" or contents like "%'.$search_word.'%" ';
+       }
        
        $limit_query = '';
        
