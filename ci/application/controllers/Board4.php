@@ -147,6 +147,77 @@ class Board4 extends Base_Controller {
     }
     
     /**
+     * 게시물 수정
+     */
+    function modify()
+    {
+        //경고창 헬퍼 로딩
+        $this->load->helper('alert');
+        echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+        
+        //주소중에서 page 세그먼트가 있는지 검사하기 위해 주소를 배열로 변환
+        $uri_array = $this->segment_explode($this->uri->uri_string());
+        
+        if( in_array('page', $uri_array) )
+        {
+            $pages = urldecode($this->url_explode($uri_array, 'page'));
+        }
+        else
+        {
+            $pages = 1;
+        }
+        
+        //폼 검증 라이브러리 로드
+        $this->load->library('form_validation');
+        
+        //폼 검증할 필드와 규칙 사전 정의
+        $this->form_validation->set_rules('subject', '제목', 'required');
+        $this->form_validation->set_rules('contents', '내용', 'required');
+        
+        if ( $this->form_validation->run() == TRUE )
+        {
+            //if ( !$this->input->post('subject', TRUE) AND !$this->input->post('contents', TRUE) )
+            if ( !post('subject', TRUE) AND !post('contents', TRUE) )
+            {
+                //글 내용이 없을 경우, 프로그램안에서 한번 더 체크
+                alert('비정상적인 접근입니다.', '/board4/lists/'.$this->uri->segment(3).'/page/'.$pages);
+                exit;
+            }
+            
+            //var_dump($_POST);
+            $modify_data = array(
+                'table' => $this->uri->segment(3),
+                'board_id' => $this->uri->segment(5),
+                'subject' => $this->input->post('subject', TRUE),
+                'contents' => $this->input->post('contents', TRUE)
+            );
+            
+            $result = $this->board4_m->modify_board($modify_data);
+            
+            if ( $result )
+            {
+                //글 작성 성공시 게시판 목록으로
+                alert('수정되었습니다.', '/board4/lists/'.$this->uri->segment(3).'/page/'.$pages);
+                exit;
+            }
+            else
+            {
+                //글 수정 실패시 글 내용으로
+                alert('다시 수정해 주세요.', '/board4/view/'.$this->uri->segment(3).'/board_id/'.$this->uri->segment(5).'/page/'.$pages);
+                exit;
+            }
+        }
+        else
+        {
+            //게시물 내용 가져오기
+            $data['views'] = $this->board4_m->get_view($this->uri->segment(3), $this->uri->segment(5));
+            
+            //쓰기폼 view 호출
+            $this->load->view('board4/modify_v', $data);
+        }
+    }
+    
+    /**
      * url중 키값을 구분하여 값을 가져오도록.
      * 
      * @param Array $url : segment_explode 한 url값
