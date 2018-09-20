@@ -117,5 +117,24 @@ class Board4_m extends CI_Model
         return $result;
     }
     
+    /**
+     * 게시물 삭제
+     * 
+     * @param string $table 테이블명
+     * @param string $no 게시물번호
+     * @return boolean 삭제 성공여부
+     */
+    function delete_content($table, $no)
+    {
+        $delete_array = array(
+            'board_id' => $no
+        );
+        
+        $result = $this->db->delete($table, $delete_array);
+        
+        //결과 반환
+        return $result;
+    }
+    
 }
 
