@@ -19,6 +19,20 @@
                     <p>CodeIgniter</p>
                     <small>예제</small>
                     <p>
+<?php
+//if( @$this->session->userdata['logged_in'] == TRUE )
+if( @$_SESSION["logged_in"] == TRUE )
+{
+?>
+    <?php //echo $this->session->userdata['username']?>
+    <?PHP echo $_SESSION["username"];?>님 환영합니다. <a href="/auth2/logout" class="btn">로그아웃</a>
+<?php                        
+} else {
+?>
+    <a href="/auth2/login" class="btn btn-primary">로그인</a>
+<?php
+}
+?>
                     </p>
                 </blockquote>
             </header>

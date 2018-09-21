@@ -147,6 +147,21 @@ class Board4_m extends CI_Model
         //결과 반환
         return $result;
     }
+   /**
+    * 게시물 작성자 아이디 변환
+    * 
+    * @param string $table 게시판 테이블
+    * @param string $board_id 게시물번호
+    * @return string 작성자 아이디
+    */
+    function writer_check($table, $board_id)
+    {
+        $sql = "SELECT user_id FROM ".$table." WHERE board_id = '".$board_id."'";
+
+        $query = $this->db->query($sql);
+        
+        return $query->row();
+    }
     
     /**
      * 댓글 입력
