@@ -102,6 +102,37 @@ class Board5 extends Base_Controller {
     }
     
     /**
+     * 게시물 보기
+     */
+    function view()
+    {
+        $table = $this->uri->segment(3);
+        $board_id = $this->uri->segment(5);
+        
+        //게시판 이름과 게시물 번호에 해당하는 게시물 가져오기
+        //$data['views'] = $this->board5_m->get_view($table, $board_id);
+        $result = $this->board5_m->get_view($table, $board_id);
+        
+        //게시판 이름과 게시물 번호에 해당하는 댓글 리스트 가져오기
+        //$data['comment_list'] = $this->board5_m->get_comment($table, $board_id);
+        $rs_co = $this->board5_m->get_comment($table, $board_id);
+        $seg_3 = $this->uri->segment(3);
+        $seg_5 = $this->uri->segment(5);
+        $seg_7 = $this->uri->segment(7);
+        
+        $this->assign('result',$result);
+        $this->assign('seg_3', $seg_3);
+        $this->assign('seg_5', $seg_5);
+        $this->assign('seg_7', $seg_7);
+        $this->assign('rs_co', $rs_co);
+        
+        $this->tpl_name = 'view';
+        
+        //$this->output->enable_profiler(TRUE);
+        
+    }
+    
+    /**
      * url중 키값을 구분하여 값을 가져오도록.
      * 
      * @param Array $url : segment_explode 한 url값
