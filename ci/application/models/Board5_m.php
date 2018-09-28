@@ -1,4 +1,4 @@
-<?php //if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 //include_once(__DIR__ . '../Base_controller.php');
 include_once(APPPATH . 'controllers/Base_controller.php');
@@ -202,6 +202,15 @@ class Board5_m extends CI_Model
         
         //결과 반환
         return $board_id;
+    }
+    
+    function writer_check($table, $board_id)
+    {
+        $query = $this->db
+                        ->where('board_id',$board_id)
+                        ->select('user_id')
+                        ->get($table);
+        return $query->row();
     }
     
 }

@@ -20,9 +20,9 @@
                     <small>예제</small>
                     <p>
                         <!--{? _SESSION.logged_in == true }-->
-                        { _SESSION.username }님 환영합니다. <a href="/auth2/logout" class="btn">로그아웃</a>
+                        { _SESSION.username }님 환영합니다. <a href="/auth5/logout" class="btn">로그아웃</a>
                         <!--{:}-->
-                        <a href="/auth2/login" class="btn btn-primary">로그인</a>
+                        <a href="/auth5/login" class="btn btn-primary">로그인</a>
                         <!--{/}-->
                     </p>
                 </blockquote>

@@ -141,78 +141,80 @@ class Board5 extends Base_Controller {
         $this->load->helper('alert');
         echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
         
-        //if( @$_SESSION['logged_in'] == TRUE )
-        //{
-        //폼 검증 라이브러리 로드
-        $this->load->library('form_validation');
-        
-        //폼 검증할 필드와 규칙 사전 정의
-        $this->form_validation->set_rules('subject', '제목', 'required');
-        $this->form_validation->set_rules('contents', '내용', 'required');
-        
-        //form_open 함수 템플릿 언더바에서 사용하기 위해 처리
-        $attributes = array('class' => 'form-horizontal', 'id' => 'write_action');
-        $form_open = form_open('board5/write/ci_board', $attributes);
-        
-        //set_value 함수 템플릿 언더바에서 사용하기 위한 처리
-        $setv_subj = set_value("subject");
-        $setv_cont = set_value("contents");
-   //echo 'set_value(\'subject\')='.set_value('subject'); echo '<br>'; 
-   //echo '$setv_subj='.$setv_subj.'<br>';       
-   //echo 'set_value("contents")='.set_value("contents").'<br>';
-        if ( $this->form_validation->run() == TRUE )
+        if( @$_SESSION['logged_in'] == TRUE )
         {
-            //주소중에서 page 세그먼트가 있는지 검사하기 위해 주소를 배열로 변환
-            $uri_array = $this->segment_explode($this->uri->uri_string());
-            
-            if( in_array('page', $uri_array) )
+            //폼 검증 라이브러리 로드
+            //$this->load->library('form_validation');
+        
+            //폼 검증할 필드와 규칙 사전 정의
+            $this->form_validation->set_rules('subject', '제목', 'required');
+            $this->form_validation->set_rules('contents', '내용', 'required');
+        
+            //form_open 함수 템플릿 언더바에서 사용하기 위해 처리
+            $attributes = array('class' => 'form-horizontal', 'id' => 'write_action');
+            $form_open = form_open('board5/write/ci_board', $attributes);
+        
+            //set_value 함수 템플릿 언더바에서 사용하기 위한 처리
+            $setv_subj = set_value("subject");
+            $setv_cont = set_value("contents"); 
+            //echo 'set_value(\'subject\')='.set_value('subject'); echo '<br>'; 
+            //echo '$setv_subj='.$setv_subj.'<br>';       
+            //echo 'set_value("contents")='.set_value("contents").'<br>';
+            if ( $this->form_validation->run() == TRUE )
             {
-                $pages = urldecode($this->url_explode($uri_array, 'page'));
+                //주소중에서 page 세그먼트가 있는지 검사하기 위해 주소를 배열로 변환
+                $uri_array = $this->segment_explode($this->uri->uri_string());
+            
+                if( in_array('page', $uri_array) )
+                {
+                    $pages = urldecode($this->url_explode($uri_array, 'page'));
+                }
+                else
+                {
+                    $pages = 1;
+                }
+            
+                $write_data = array(
+                    'table' => $this->uri->segment(3),
+                    'subject' => post('subject', TRUE),
+                    'contents' => post('contents', TRUE),
+                    //'user_id' => 'tmpID'
+                    'user_id' => $_SESSION['username']
+                );
+            
+                $result = $this->board5_m->insert_board($write_data);
+            
+                if ( $result )
+                {
+                    //글 작성 성공시 게시판 목록으로
+                    alert('입력되었습니다.', '/board5/lists/'.$this->uri->segment(3).'/page/'.$pages);
+                    exit;
+                }
+                else
+                {
+                    //글 실패시 게시판 목록으로
+                    alert('다시 입력해 주세요.', '/board5/lists/'.$this->uri->segment(3).'/page/'.$pages);
+                    exit;
+                }
             }
             else
             {
-                $pages = 1;
-            }
+                //쓰기폼 view 호출
+                //$this->load->view('board5/write_v');
             
-            $write_data = array(
-                'table' => $this->uri->segment(3),
-                'subject' => post('subject', TRUE),
-                'contents' => post('contents', TRUE),
-                'user_id' => 'tmpID'
-            );
-            
-            $result = $this->board5_m->insert_board($write_data);
-            
-            if ( $result )
-            {
-                //글 작성 성공시 게시판 목록으로
-                alert('입력되었습니다.', '/board5/lists/'.$this->uri->segment(3).'/page/'.$pages);
-                exit;
-            }
-            else
-            {
-                //글 실패시 게시판 목록으로
-                alert('다시 입력해 주세요.', '/board5/lists/'.$this->uri->segment(3).'/page/'.$pages);
-                exit;
+                $validation_errors = validation_errors();
+                $this->assign('form_open', $form_open);
+                $this->assign('setv_subj', $setv_subj);
+                $this->assign('setv_cont', $setv_cont);
+                $this->assign('validation_errors', $validation_errors);
+                $this->tpl_name = 'write';
             }
         }
         else
         {
-            //쓰기폼 view 호출
-            //$this->load->view('board5/write_v');
-            
-            $validation_errors = validation_errors();
-            $this->assign('form_open', $form_open);
-            $this->assign('setv_subj', $setv_subj);
-            $this->assign('setv_cont', $setv_cont);
-            $this->assign('validation_errors', $validation_errors);
-            $this->tpl_name = 'write';
+            alert('로그인 후 작성하세요', '/auth5/login/');
+            exit;
         }
-        //}
-        //else
-        //{
-        //    alert('로그인 후 작성하세요', '/auth/login/')
-        //}
     }
     
     /**
@@ -236,84 +238,90 @@ class Board5 extends Base_Controller {
             $pages = 1;
         }
         
-        //if( @$_SESSION['logged_in'] == TRUE )
-        //{
-        //수정하려는 글의 작성자가 본인인지 검증
-        //$writer_id = $this->board5_m->writer_check($this->uri->segment(3), $this->uri->segment(5));
-        //if( $writer_id->user_id != $_SESSION['username'] )
-        //{
-        //    alert('본인이 작성한 글이 아닙니다.', '/board5/view/'.$this->uri->segment(3).'/board_id/'.$this->uri->segment(5).'/page/'.$pages);
-        //    exit;
-        //}
-        //}
-        
-        //폼 검증할 필드와 규칙 사전 정의
-        $this->form_validation->set_rules('subject', '제목', 'required');
-        $this->form_validation->set_rules('contents', '내용', 'required');
-        
-        //form_open 함수 템플릿 언더바에서 사용하기 위한 처리
-        $form_open = form_open('/board5/modify/'.$this->uri->segment(3).'/board_id/'.$this->uri->segment(5), array('id'=>'write_action', 'class'=>'form-horizontal'));
-        
-        //set_value 함수 템플릿 언더바에서 사용하기 위한 처리
-        $setv_subj = set_value("subject");
-        $setv_cont = set_value('contents');
-        
-        if ( $this->form_validation->run() == TRUE )
+        if( @$_SESSION['logged_in'] == TRUE )
         {
-            if ( !post('subject', TRUE) AND !post('contents', TRUE) )
+            //수정하려는 글의 작성자가 본인인지 검증
+            $writer_id = $this->board5_m->writer_check($this->uri->segment(3), $this->uri->segment(5));
+
+            if( $writer_id->user_id != $_SESSION['username'] )
             {
-                //글 내용이 없을 경우, 프로그램단에서 한번 더 체크
-                alert('비정상적인 접근입니다.', '/board5/lists/'.$this->uri->segment(3).'/page/'.$pages);
+                alert('본인이 작성한 글이 아닙니다.', '/board5/view/'.$this->uri->segment(3).'/board_id/'.$this->uri->segment(5).'/page/'.$pages);
                 exit;
             }
             
-            //var_dump($_POST);
-            $modify_data = array(
-                'table' => $this->uri->segment(3),
-                'board_id' => $this->uri->segment(5),
-                'subject' => post('subject', TRUE),
-                'contents' => post('contents', TRUE)
-            );
-            
-            $result = $this->board5_m->modify_board($modify_data);
-            
-            if ( $result )
+            //폼 검증할 필드와 규칙 사전 정의
+            $this->form_validation->set_rules('subject', '제목', 'required');
+            $this->form_validation->set_rules('contents', '내용', 'required');
+        
+            //form_open 함수 템플릿 언더바에서 사용하기 위한 처리
+            $form_open = form_open('/board5/modify/'.$this->uri->segment(3).'/board_id/'.$this->uri->segment(5), array('id'=>'write_action', 'class'=>'form-horizontal'));
+        
+            //set_value 함수 템플릿 언더바에서 사용하기 위한 처리
+            $setv_subj = set_value("subject");
+            $setv_cont = set_value('contents');
+        
+            if ( $this->form_validation->run() == TRUE )
             {
-                //글 작성 성공시 게시판 목록으로
-                alert('수정되었습니다.', '/board5/lists/'.$this->uri->segment(3).'/page/'.$pages);
-                exit;
+                if ( !post('subject', TRUE) AND !post('contents', TRUE) )
+                {
+                    //글 내용이 없을 경우, 프로그램단에서 한번 더 체크
+                    alert('비정상적인 접근입니다.', '/board5/lists/'.$this->uri->segment(3).'/page/'.$pages);
+                    exit;
+                }
+            
+                //var_dump($_POST);
+                $modify_data = array(
+                    'table' => $this->uri->segment(3),
+                    'board_id' => $this->uri->segment(5),
+                    'subject' => post('subject', TRUE),
+                    'contents' => post('contents', TRUE)
+                );
+            
+                $result = $this->board5_m->modify_board($modify_data);
+            
+                if ( $result )
+                {
+                    //글 작성 성공시 게시판 목록으로
+                    alert('수정되었습니다.', '/board5/lists/'.$this->uri->segment(3).'/page/'.$pages);
+                    exit;
+                }
+                else
+                {
+                    //글 수정 실패시 글 내용으로
+                    alert('다시 수정해 주세요.', '/board5/view/'.$this->uri->segment(3).'/board_id/'.$this->uri->segment(5).'/page/'.$pages);
+                    exit;
+                }
             }
             else
             {
-                //글 수정 실패시 글 내용으로
-                alert('다시 수정해 주세요.', '/board5/view/'.$this->uri->segment(3).'/board_id/'.$this->uri->segment(5).'/page/'.$pages);
-                exit;
+                //게시물 내용 가져오기
+                //$data['views'] = $this->board5_m->get_view($this->uri->segment(3), $this->uri->segment(5));
+            
+                //쓰기폼 view 호출
+                //$this->load->view('board5/modify_v', $data);
+            
+                $validation_errors = validation_errors();
+            
+                $seg_3 = $this->uri->segment(3);
+                $seg_5 = $this->uri->segment(5);
+                $result = $this->board5_m->get_view($this->uri->segment(3), $this->uri->segment(5));
+            
+                $this->assign('seg_3',$seg_3);
+                $this->assign('seg_5',$seg_5);
+                $this->assign('result',$result);
+                $this->assign('form_open',$form_open);
+            
+                $this->assign('setv_subj',$setv_subj);
+                $this->assign('setv_cont',$setv_cont);
+                $this->assign('validation_errors',$validation_errors);
+            
+                $this->tpl_name = 'modify';
             }
         }
         else
         {
-            //게시물 내용 가져오기
-            //$data['views'] = $this->board5_m->get_view($this->uri->segment(3), $this->uri->segment(5));
-            
-            //쓰기폼 view 호출
-            //$this->load->view('board5/modify_v', $data);
-            
-            $validation_errors = validation_errors();
-            
-            $seg_3 = $this->uri->segment(3);
-            $seg_5 = $this->uri->segment(5);
-            $result = $this->board5_m->get_view($this->uri->segment(3), $this->uri->segment(5));
-            
-            $this->assign('seg_3',$seg_3);
-            $this->assign('seg_5',$seg_5);
-            $this->assign('result',$result);
-            $this->assign('form_open',$form_open);
-            
-            $this->assign('setv_subj',$setv_subj);
-            $this->assign('setv_cont',$setv_cont);
-            $this->assign('validation_errors',$validation_errors);
-            
-            $this->tpl_name = 'modify';
+            alert('로그인후 수정하세요', '/auth5/login/');
+            exit;
         }
     }
     
@@ -323,43 +331,41 @@ class Board5 extends Base_Controller {
     function delete()
     {
         echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
-        /*
+        
         if( @$_SESSION['logged_in'] == TRUE )
         {
+            //삭제하려는 글의 작성자가 본인인지 검증
+            $table = $this->uri->segment(3);
+            $board_id = $this->uri->segment(5);
+            
+            $writer_id = $this->board5_m->writer_check($table, $board_id);
+        
+            if( $writer_id->user_id != $_SESSION['username'] )
+            {
+                alert('본인이 작성한 글이 아닙니다.', '/board5/view/'.$this->uri->segment(3).'/board_id/'.$this->uri->segment(5).'/page/'.$this->uri->segment(7));
+                exit;
+            }
+            
+            //게시물 번호에 해당하는 게시물 삭제
+            $return = $this->board5_m->delete_content($this->uri->segment(3), $this->uri->segment(5));
+        
+            //게시물 목록으로 돌아가기
+            if ( $return )
+            {
+                //삭제가 성공한 경우
+                alert('삭제되었습니다.', '/board5/lists/'.$this->uri->segment(3).'/page/'.$this->uri->segment(7));
+            }
+            else
+            {
+                //삭제가 실패한 경우
+                alert('삭제 실패하였습니다.', '/board5/view/'.$this->uri->segment(3).'/board_id/'.$this->uri->segment(5).'/page/'.$this->uri->segment(7));
+            }
         }
         else
         {
-            alert('로그인후 삭제하세요', '/auth/login/');
+            alert('로그인후 삭제하세요', '/auth5/login/');
             exit;
-        }
-         */
-        //삭제하려는 글의 작성자가 본인인지 검증
-        $table = $this->uri->segment(3);
-        $board_id = $this->uri->segment(5);
-        /*
-        $writer_id = $this->board5_m->writer_check($table, $board_id);
-        
-        if( $writer_id->user_id != $_SESSION['username'] )
-        {
-            alert('본인이 작성한 글이 아닙니다.', '/board5/view/'.$this->uri->segment(3).'/board_id/'.$this->uri->segment(5).'/page/'.$this->uri->segment(7));
-            exit;
-        }
-        */
-        
-        //게시물 번호에 해당하는 게시물 삭제
-        $return = $this->board5_m->delete_content($this->uri->segment(3), $this->uri->segment(5));
-        
-        //게시물 목록으로 돌아가기
-        if ( $return )
-        {
-            //삭제가 성공한 경우
-            alert('삭제되었습니다.', '/board5/lists/'.$this->uri->segment(3).'/page/'.$this->uri->segment(7));
-        }
-        else
-        {
-            //삭제가 실패한 경우
-            alert('삭제 실패하였습니다.', '/board5/view/'.$this->uri->segment(3).'/board_id/'.$this->uri->segment(5).'/page/'.$this->uri->segment(7));
-        }
+        }    
     }
     
     /**
