@@ -129,6 +129,39 @@ class Board5_m extends CI_Model
         return $result;
     }
     
+    function insert_board($arrays)
+    {
+        $insert_array = array(
+            'board_pid' => 0,
+            'user_id' => $arrays['user_id'],
+            'user_name' => $arrays['user_id'],
+            'subject' => $arrays['subject'],
+            'contents' => $arrays['contents'],
+            'reg_date' => date("Y-m-d H:i:s")
+        );
+        
+        $result = $this->db->insert($arrays['table'], $insert_array);
+        
+        //결과 반환
+        return $result;
+    }
+    
+    function modify_board($arrays)
+    {
+        $modify_array = array(
+            'subject' => $arrays['subject'],
+            'contents' => $arrays['contents']
+        );
+        
+        $where = array(
+            'board_id' => $arrays['board_id']
+        );
+        
+        $result = $this->db->update($arrays['table'], $modify_array, $where);
+        
+        return $result;
+    }
+    
     function delete_content($table, $no)
     {
         $delete_array = array(
