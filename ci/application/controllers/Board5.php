@@ -128,7 +128,7 @@ class Board5 extends Base_Controller {
         
         $this->tpl_name = 'view';
         
-        //$this->output->enable_profiler(TRUE);
+        $this->output->enable_profiler(TRUE);
         
     }
     
