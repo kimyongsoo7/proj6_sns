@@ -116,12 +116,15 @@ class Board5 extends Base_Controller {
         //게시판 이름과 게시물 번호에 해당하는 댓글 리스트 가져오기
         //$data['comment_list'] = $this->board5_m->get_comment($table, $board_id);
         $rs_co = $this->board5_m->get_comment($table, $board_id);
+        $seg_1 = $this->uri->segment(1);
         $seg_3 = $this->uri->segment(3);
         $seg_5 = $this->uri->segment(5);
         $seg_7 = $this->uri->segment(7);
         
         $this->assign('result',$result);
+        $this->assign('seg_1_lay', $seg_1, true);       //레이아웃 변수값
         $this->assign('seg_3', $seg_3);
+        $this->assign('seg_3_lay', $seg_3, true);       //레이아웃 변수값
         $this->assign('seg_5', $seg_5);
         $this->assign('seg_7', $seg_7);
         $this->assign('rs_co', $rs_co);
@@ -205,6 +208,13 @@ class Board5 extends Base_Controller {
                 $this->assign('set_subj', $set_subj);
                 $this->assign('set_cont', $set_cont);
                 $this->assign('validation_errors', $validation_errors);
+                
+                //레이아웃 변수값들
+                $seg_1 = $this->uri->segment(1);
+                $seg_3 = $this->uri->segment(3);
+                $this->assign('seg_1_lay', $seg_1, true);       //레이아웃 변수값
+                $this->assign('seg_3_lay', $seg_3, true);       //레이아웃 변수값
+                
                 $this->tpl_name = 'write';
             }
         }
@@ -300,6 +310,7 @@ class Board5 extends Base_Controller {
             
                 $validation_errors = validation_errors();
             
+                $seg_1 = $this->uri->segment(1);
                 $seg_3 = $this->uri->segment(3);
                 $seg_5 = $this->uri->segment(5);
                 $result = $this->board5_m->get_view($this->uri->segment(3), $this->uri->segment(5));
@@ -308,7 +319,9 @@ class Board5 extends Base_Controller {
                 $this->assign('seg_5',$seg_5);
                 $this->assign('result',$result);
                 $this->assign('form_open',$form_open);
-            
+                $this->assign('seg_1_lay', $seg_1, true);       //레이아웃 변수값
+                $this->assign('seg_3_lay', $seg_3, true);       //레이아웃 변수값
+                
                 $this->assign('setv_subj',$setv_subj);
                 $this->assign('setv_cont',$setv_cont);
                 $this->assign('validation_errors',$validation_errors);
