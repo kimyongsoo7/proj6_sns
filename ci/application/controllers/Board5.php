@@ -37,7 +37,6 @@ class Board5 extends Base_Controller {
      */
     public function lists()
     {
-        $this->output->enable_profiler(TRUE);
         //검색어 초기화
         $search_word = $page_url = '';
         $uri_segment = 5;
@@ -99,6 +98,8 @@ class Board5 extends Base_Controller {
         
         $this->tpl_name = 'lists';
         
+        $this->output->enable_profiler(TRUE);
+        
     }
     
     /**
@@ -142,7 +143,7 @@ class Board5 extends Base_Controller {
     {
         //경고창 헬퍼 로딩
         $this->load->helper('alert');
-        echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+        //echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
         
         if( @$_SESSION['logged_in'] == TRUE )
         {
@@ -232,7 +233,7 @@ class Board5 extends Base_Controller {
     {
         //경고창 헬퍼 로딩
         //$this->load->helper('alert');
-        echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+        //echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
         
         //주소중에서 page 세그먼트가 있는지 검사하기 위해 주소를 배열로 변환
         $uri_array = $this->segment_explode($this->uri->uri_string());
@@ -341,7 +342,7 @@ class Board5 extends Base_Controller {
      */
     function delete()
     {
-        echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+        //echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
         
         if( @$_SESSION['logged_in'] == TRUE )
         {
