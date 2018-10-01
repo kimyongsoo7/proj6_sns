@@ -33,8 +33,8 @@ class Ajax_board5 extends Base_Controller {
     public function ajax_comment_add()
     {
         //if( @$this->session->userdata('logged_in') == TRUE )
-        //if( @$_SESSION['logged_in'] == TRUE )
-        //{
+        if( @$_SESSION['logged_in'] == TRUE )
+        {
             $this->load->model('board5_m');
 
             $table = post("table", TRUE);
@@ -48,8 +48,8 @@ class Ajax_board5 extends Base_Controller {
                     'board_pid' => $board_id,
                     'subject' => '',
                     'contents' => $comment_contents,
-                    'user_id' => 'TmpID'
-                    //'user_id' => @$_SESSION['username']
+                    'user_id' => @$_SESSION['username']
+                    //'user_id' => 'TmpID'
                 );
 
                 $result = $this->board5_m->insert_comment($write_data);
@@ -93,35 +93,33 @@ foreach ($rs->result() as $lt)
                 //글 내용이 없을 경우
                 echo "1000";
             }
-        /*
+        }
         else
         {
             echo "9000"; //로그인 필요 에러
         }
-         */
+        
     }        
     
     
     public function ajax_comment_delete()
     {
-        //if( @$_SESSION['logged_in'] == TRUE )
-        //{
+        if( @$_SESSION['logged_in'] == TRUE )
+        {
             $this->load->model('board5_m');
             
             $table = post("table", TRUE);
             $board_id = post("board_id", TRUE);
             
             //글 작성자가 본인인지 검증
-            //$writer_id = $this->board5_m->writer_check($table, $board_id);
+            $writer_id = $this->board5_m->writer_check($table, $board_id);
             
-            /*
             if( $writer_id->user_id != @$_SESSION['username'] )
             {
                 echo "8000"; //본인이 작성한 글이 아닙니다.
             }
             else
             {
-             */
                 $result = $this->board5_m->delete_content($table, $board_id);
                 
                 if ( $result )
@@ -133,15 +131,12 @@ foreach ($rs->result() as $lt)
                     //글 실패시
                     echo "2000";
                 }
-                
-            //}
-        /*    
+            }
         }
         else
         {
             echo "9000"; //로그인 필요 에러
         }
-         */
     }
 }
 
