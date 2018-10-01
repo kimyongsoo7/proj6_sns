@@ -154,12 +154,6 @@ class Board5 extends Base_Controller {
             $attributes = array('class' => 'form-horizontal', 'id' => 'write_action');
             $form_open = form_open('board5/write/ci_board', $attributes);
         
-            //set_value 함수 템플릿 언더바에서 사용하기 위한 처리
-            $setv_subj = set_value("subject");
-            $setv_cont = set_value("contents"); 
-            //echo 'set_value(\'subject\')='.set_value('subject'); echo '<br>'; 
-            //echo '$setv_subj='.$setv_subj.'<br>';       
-            //echo 'set_value("contents")='.set_value("contents").'<br>';
             if ( $this->form_validation->run() == TRUE )
             {
                 //주소중에서 page 세그먼트가 있는지 검사하기 위해 주소를 배열로 변환
@@ -201,11 +195,15 @@ class Board5 extends Base_Controller {
             {
                 //쓰기폼 view 호출
                 //$this->load->view('board5/write_v');
-            
+                
+                //set_value 함수 템플릿 언더바에서 사용하기 위한 처리
+                $set_subj = set_value("subject");
+                $set_cont = set_value("contents"); 
+                
                 $validation_errors = validation_errors();
                 $this->assign('form_open', $form_open);
-                $this->assign('setv_subj', $setv_subj);
-                $this->assign('setv_cont', $setv_cont);
+                $this->assign('set_subj', $set_subj);
+                $this->assign('set_cont', $set_cont);
                 $this->assign('validation_errors', $validation_errors);
                 $this->tpl_name = 'write';
             }
