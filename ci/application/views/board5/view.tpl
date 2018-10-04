@@ -7,7 +7,8 @@ $(function(){
             type: "POST",
             data:{
                 "comment_contents":encodeURIComponent($("#input01").val()),
-                "csrf_test_name":getCookie('csrf_cookie_name'),
+                //"csrf_test_name":getCookie('csrf_cookie_name'),
+                "{csrf_name}":"{csrf_hash}",
                 "table":"{seg_3}",
                 "board_id":"{seg_5}"
             },
@@ -43,7 +44,8 @@ $(function(){
             url: "/ajax_board5/ajax_comment_delete",
             type: "POST",
             data:{
-                "csrf_test_name":getCookie('csrf_cookie_name'),
+                //"csrf_test_name":getCookie('csrf_cookie_name'),
+                "{csrf_name}":"{csrf_hash}",
                 "table":"{seg_3}",
                 "board_id":$(this).attr("vals")
             },

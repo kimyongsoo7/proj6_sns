@@ -110,6 +110,12 @@ class Board5 extends Base_Controller {
         $table = $this->uri->segment(3);
         $board_id = $this->uri->segment(5);
         
+        //csrf 방어 관련되서 필요
+        $csrf = array(
+            'name' => $this->security->get_csrf_token_name(),
+            'hash' => $this->security->get_csrf_hash()
+        );
+        
         //게시판 이름과 게시물 번호에 해당하는 게시물 가져오기
         //$data['views'] = $this->board5_m->get_view($table, $board_id);
         $result = $this->board5_m->get_view($table, $board_id);
@@ -129,6 +135,9 @@ class Board5 extends Base_Controller {
         $this->assign('seg_5', $seg_5);
         $this->assign('seg_7', $seg_7);
         $this->assign('rs_co', $rs_co);
+        //csrf 방어 관련되서 필요
+        $this->assign('csrf_name', $csrf['name']);
+        $this->assign('csrf_hash', $csrf['hash']);
         
         $this->tpl_name = 'view';
         
@@ -209,6 +218,7 @@ class Board5 extends Base_Controller {
                 $this->assign('set_subj', $set_subj);
                 $this->assign('set_cont', $set_cont);
                 $this->assign('validation_errors', $validation_errors);
+                $this->assign('form_open', $form_open);
                 
                 //레이아웃 변수값들
                 $seg_1 = $this->uri->segment(1);
